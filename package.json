@@ -1,0 +1,13 @@
+{
+  "name": "scrapbot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": "index.js",
+  "dependencies": {
+    "axios": "^1.6.1",
+    "dotenv": "^16.3.1",
+    "googleapis": "^128.0.0",
+    "pkg": "^5.8.1",
+    "puppeteer": "^21.5.1"
+  }
+}

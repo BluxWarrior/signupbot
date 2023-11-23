@@ -1,0 +1,40 @@
+# Object files
+*.o
+*.obj
+
+# Log files
+*.log
+
+# Compiled code
+*.out
+*.swp
+*.swo
+
+# Executables
+*.exe
+
+# Temporary and cache files
+*.tmp
+*.cache
+*~
+
+# Byte-compiled files
+*.pyc
+*.pyo
+*.elc
+
+# Libraries and archives
+*.lib
+*.a
+*.dll
+
+# Directories
+node_modules/
+dist/
+target/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+*.lock
+desktop.ini
