@@ -12,10 +12,10 @@ async function totesport(data) {
     const password = await generatepassword();
     const username = data["Email"].split("@")[0];
     const client = data["FirstName"] + " " + data["LastName"];
+    console.log("welcome planet");
+    const browserURL = 'http://127.0.0.1:9222';
+    const browser = await puppeteer.connect({ browserURL });
     try {
-        console.log("welcome planet");
-        const browserURL = 'http://127.0.0.1:9222';
-        const browser = await puppeteer.connect({ browserURL });
 
 
         const page = (await browser.pages())[0];
@@ -43,7 +43,14 @@ async function totesport(data) {
         await page.type('input[data-testid="single-page-password"]', password);
 
         await sleep(3000);
+        console.log("clicking button...")
         await page.click('button[data-testid="multi-page-continue"]');
+        try {
+            await sleep(1000);
+            await page.click('button[data-testid="multi-page-continue"]');
+        } catch (error) {
+            console.log("already continued");
+        }
         await sleep(3000);
 
 
@@ -53,9 +60,18 @@ async function totesport(data) {
         await page.type('input[data-testid="single-page-step-last-name-input"]', data['LastName']);
 
         await page.click('button[class="your-detailsstyles__ChangeAddressTypeBtn-sc-xczitz-4 jyLetk"]');
+
         await sleep(1000);
 
-        await page.type('input[data-testid="manual-address-line1"]', data['Address']);
+        try {
+            await page.type('input[data-testid="manual-address-line1"]', data['Address']);
+        } catch (error) {
+            console.log("still not continued");
+            await page.click('button[class="your-detailsstyles__ChangeAddressTypeBtn-sc-xczitz-4 jyLetk"]');
+            await sleep(1000);
+            await page.type('input[data-testid="manual-address-line1"]', data['Address']);
+        }
+
         await page.type('input[data-testid="manual-address-town-city"]', data['City']);
         await page.type('input[data-testid="manual-address-county"]', 'United Kingdom');
         await page.type('input[data-testid="manual-address-postcode"]', data['Postcode']);
@@ -78,18 +94,25 @@ async function totesport(data) {
         }
         await sleep(3000);
 
+        try {
+            await page.click('input[value="EmailText"]');
+        } catch (error) {
+            console.log("still not continued");
+            await page.click('button[data-testid="multi-page-continue"]');
+            await sleep(1000);
+            await page.click('input[value="EmailText"]');
+        }
 
-        await page.click('input[value="EmailText"]');
         await page.click('button[value="on"]');
 
         await sleep(3000);
         page.click('button[data-testid="join-button"');
         
 
-        await sleep(10000);
+        await sleep(20000);
 
         console.log('$$$$$$$$$$$$$$$$$$$$$$');
-        const divExists = await page.$('div[data-testid="betslip close button"]');
+        const divExists = await page.$('li[data-testid="sticky-footer-menu-item-betslip"]');
         console.log('%%%%%%%%%%%%%%');
         console.log(divExists);
 
@@ -105,8 +128,8 @@ async function totesport(data) {
         browser.close()
         return ["Totesport", client, data['Email'], username, password, isSucessful];
     } catch (error) {
-        browser.close()
         console.error(`Error: ${error.message}`);
+        browser.close()
         return ["Totesport", client, data['Email'], username, password, "no"];
     }
 }

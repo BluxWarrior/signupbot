@@ -18,14 +18,7 @@ async function rhino(data) {
     const username = data["Email"].split("@")[0];
     const client = data["FirstName"] + " " + data["LastName"];
     try {
-        // const browser = await puppeteer.launch({
-        //     headless: false,
-        //     args: ["--start-maximized"],
-        //     timeout: 6000000,
-        //     protocolTimeout: 6000000,
-        //     defaultViewport: null,
-        // })
-
+        
         const browserURL = 'http://127.0.0.1:9222';
         const browser = await puppeteer.connect({ browserURL });
         const page = (await browser.pages())[0];
@@ -34,27 +27,11 @@ async function rhino(data) {
 
         await sleep(10000);
 
-        // Get the cookies
-        const cookies = await page.cookies();
-
-        // Print the cookies before deletion
-        console.log('Cookies before deletion:', cookies);
-
-        // Delete the desired cookies (all of them in this example)
-        await page.deleteCookie(...cookies);
-
-        console.log('delete...');
-        // await sleep(15000);
-
-        // Get the cookies after deletion
-        const cookiesAfterDeletion = await page.cookies();
-
-        // Print the cookies after deletion
-        console.log('Cookies after deletion:', cookiesAfterDeletion);
+        console.log("Rhino is starting...");
 
         // Sign Up
-        await page.type('input[type="text"]', data['Email']);
-        await page.type('input[type="password"]', password);
+        await page.type('input[data-test="email-input"]', data['Email']);
+        await page.type('input[data-test="create-password-input"]', password);
 
         await sleep(3000);
         await page.click('button[data-test="create-account-button"]');
@@ -96,7 +73,7 @@ async function rhino(data) {
         await sleep(3000);
 
         await page.click('button[data-test="agree-and-join-button"]');
-        await sleep(10000);
+        await sleep(15000);
 
         console.log('$$$$$$$$$$$$$$$$$$$$$$');
         const h3Exists = await page.$('h3[data-test="centered-verify-headline"]');

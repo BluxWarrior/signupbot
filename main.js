@@ -104,8 +104,6 @@ async function main(sheetNames) {
         values = await betfred(dictdata);
         await add_data(sheetNames[2], values);
 
-
-        console.log("betfred done")
         values = await bresbet(dictdata);
         await add_data(sheetNames[2], values);
 

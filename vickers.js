@@ -18,14 +18,7 @@ async function vickers(data) {
     const username = data["Email"].split("@")[0];
     const client = data["FirstName"] + " " + data["LastName"];
     try {
-        // const browser = await puppeteer.launch({
-        //     headless: false,
-        //     args: ["--start-maximized"],
-        //     timeout: 6000000,
-        //     protocolTimeout: 6000000,
-        //     defaultViewport: null,
-        // })
-
+        
         const browserURL = 'http://127.0.0.1:9222';
         const browser = await puppeteer.connect({ browserURL });
         const page = (await browser.pages())[0];
@@ -33,27 +26,12 @@ async function vickers(data) {
         await page.goto("https://vickers.bet/?account=signup");
 
         await sleep(10000);
-        // Get the cookies
-        const cookies = await page.cookies();
-
-        // Print the cookies before deletion
-        console.log('Cookies before deletion:', cookies);
-
-        // Delete the desired cookies (all of them in this example)
-        await page.deleteCookie(...cookies);
-
-        console.log('delete...');
-        // await sleep(15000);
-
-        // Get the cookies after deletion
-        const cookiesAfterDeletion = await page.cookies();
-
-        // Print the cookies after deletion
-        console.log('Cookies after deletion:', cookiesAfterDeletion);
+        
 
         // Sign Up
-        await page.type('input[type="text"]', data['Email']);
-        await page.type('input[type="password"]', password);
+        console.log("vicker starting...")
+        await page.type('input[data-test="email-input"]', data['Email']);
+        await page.type('input[data-test="create-password-input"]', password);
 
         await sleep(3000);
         await page.click('button[data-test="create-account-button"]');

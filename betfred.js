@@ -120,7 +120,7 @@ async function betfred(data) {
 
         await sleep(1000);
         await page.click('button[class="registration-form__submit-button--postcode"]');
-        await sleep(2000);
+        await sleep(3000);
         await page.click('a[data-id="registration_address_postcode_manual_adress_error_link"]');
 
         await page.click('p[class="registration-form__input registration-form__input--country"]');
