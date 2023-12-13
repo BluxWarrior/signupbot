@@ -44,12 +44,6 @@ async function betfred(data) {
         await sleep(10000);
 
 
-
-        await page.waitForSelector('input[id="username"]');
-        await page.type('input[id="username"]', username);
-        await page.type('input[id="password"]', password);
-        // console.log(usernamepassword)
-
         const aExists = await page.$('a[class="wscrOk"]');
         console.log(aExists);
         // await sleep(3000);
@@ -63,15 +57,24 @@ async function betfred(data) {
         }
 
 
+        await page.waitForSelector('input[id="RegistrationPage.AccountSection.email"]');
+        await page.type('input[id="RegistrationPage.AccountSection.email"]', data["Email"]);
+        await page.type('input[id="RegistrationPage.AccountSection.username"]', username);
+        await page.type('input[id="RegistrationPage.AccountSection.password"]', password);
+        // console.log(usernamepassword)
+
+        
+
+
 
         try {
-            await page.click('input[class="registration-form__checkbox"]');
+            await page.click('div[data-actionable="RegistrationPage.TermsAndConditions.agree_terms"]');
         } catch (error) {
             console.log("already cehceked");
         }
 
         await sleep(3000);
-        await page.click('a[data-id="registration_continue"]');
+        await page.click('button[data-actionable="RegistrationPage.NavigationButtonsPage1.Continue"]');
         await sleep(3000);
 
 
@@ -85,67 +88,59 @@ async function betfred(data) {
 
         
 
-        await page.type('input[id="firstname"]', data['FirstName']);
-        await page.type('input[id="lastname"]', data['LastName']);
+        await page.type('input[id="RegistrationPage.PersonalSection.first_name"]', data['FirstName']);
+        await page.type('input[id="RegistrationPage.PersonalSection.last_name"]', data['LastName']);
 
         // const date = data[3].split('/');
 
-        await page.type('input[id="DAY"]', data['DOB'][1]);
-        await page.type('input[id="MONTH"]', data['DOB'][0]);
-        await page.type('input[id="YEAR"]', data['DOB'][2]);
+        await page.type('input[data-actionable="RegistrationPage.DateOfBirthInput.day"]', data['DOB'][1]);
+        await page.type('input[data-actionable="RegistrationPage.DateOfBirthInput.month"]', data['DOB'][0]);
+        await page.type('input[data-actionable="RegistrationPage.DateOfBirthInput.year"]', data['DOB'][2]);
 
 
         await sleep(3000);
-        await page.click('a[data-id="registration_continue"]');
-        await sleep(3000);
-
-        await page.type('input[id="email"]', data['Email']);
-        await page.type('input[id="telephone"]', data['Phone']);
-
-
-        await page.click('p[id="securityQuestion"]');
-        await page.waitForSelector('li[data-value="MMN"]');
-        await page.click('li[data-value="MMN"]');
-        await page.click('a[data-id="registration_contact_validate-security-question"]');
-
-        await page.type('input[id="securityAnswer"]', data["LastName"]);
-        await page.focus('input[id="securityAnswer"]');
-        await page.keyboard.press('Tab');
+        await page.click('button[data-actionable="RegistrationPage.NavigationButtonsPage2.Continue"]');
         await sleep(1000);
-        await page.type('input[id="securityAnswer2"]', data["LastName"]);
+        try {
+            await page.click('button[data-actionable="RegistrationPage.NavigationButtonsPage2.Continue"]');
+        } catch (error) {
+            console.log("already cehceked");
+        }
+        await sleep(3000);
 
-        await page.click('a[data-id="registration_continue"]');
-        await page.type('input[data-id="registration_address_postcode-search"]', '1');
-
+        await page.type('input[id="RegistrationPage.TelephoneNumberInput.telephone.mobile-telephone"]', data['Phone']);
 
         await sleep(1000);
-        await page.click('button[class="registration-form__submit-button--postcode"]');
-        await sleep(3000);
-        await page.click('a[data-id="registration_address_postcode_manual_adress_error_link"]');
-
-        await page.click('p[class="registration-form__input registration-form__input--country"]');
-        await page.waitForSelector('li[id="country"]');
-        await page.click('li[id="country"]');
-        await page.click('a[data-id="registration_address_validate-country"]');
-
-        await page.type('input[id="address1"]', data["Address"]);
-        await page.type('input[id="county"]', data["City"]);
-
-        await page.focus('input[id="postcode"]');
-        await page.keyboard.press('Backspace');
-        console.log("Backsapce");
-        await page.type('input[id="postcode"]', data["Postcode"]);
-        await page.click('span[class="registration-continue__button-text"]');
-
-        await page.click('div[data-qaid="my-account-marketing-preference-item-betfred-email"]');
-        await page.click('div[data-qaid="my-account-marketing-preference-item-thirdparty-email"]');
+        await page.type('select[id="RegistrationPage.Dropdown.mobile-securityQuestion"]', "Your");
+        await sleep(1000);
+        await page.type('input[id="RegistrationPage.ContactSection.mobile_security_answer"]', data["LastName"]);
 
         await sleep(3000);
-        await page.click('span[class="registration-register__button-text"]');
+        await page.click('button[data-actionable="RegistrationPage.NavigationButtonsPage3.Continue"]');
+        await sleep(1000);
+
+        await page.click('button[class="_1ljq2nn"]');
+        await sleep(3000);
+
+        await page.type('input[id="RegistrationPage.AddressEditor.line1"]', data["Address"]);
+        await page.type('input[id="RegistrationPage.AddressEditor.city"]', data["City"]);
+
+        await page.type('input[id="RegistrationPage.AddressEditor.postcode"]', data["Postcode"]);
+
+        await sleep(3000);
+        await page.click('button[data-actionable="RegistrationPage.NavigationButtonsPage4.Continue"]');
+        await sleep(3000);
+
+
+        await page.click('div[data-actionable="RegistrationPage.PromotionsSelector.sms"]');
+        await page.click('div[data-actionable="RegistrationPage.PromotionsSelector.email"]');
+        await sleep(1000);
+        await page.click('button[data-actionable="RegistrationPage.NavigationButtonsPage5.Register"]');
         await sleep(10000);
 
+
         console.log('$$$$$$$$$$$$$$$$$$$$$$');
-        const h3Exists = await page.$('div[class="deposit-modal__confirmation"]');
+        const h3Exists = await page.$('main[class="_15xp08j"]');
         console.log('%%%%%%%%%%%%%%');
         console.log(h3Exists);
 

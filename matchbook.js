@@ -51,16 +51,24 @@ async function matchbook(data) {
 
         await sleep(3000);
         await page.click('a[data-hook="register-next-step"]');
-        sleep(3000);
+        await sleep(3000);
+
+        await page.click('div[class="mb-advanced-dropdown__filter"]');
+        await sleep(3000);
+        await page.click('div[class="mb-advanced-dropdown__option"]');
+        await sleep(3000);
+
 
         await page.type('input[data-hook="register-address-line-1"]', data["Address"]);
         await page.type('input[data-hook="register-city"]', data["City"]);
         await page.type('input[data-hook="register-post-code"]', data["Postcode"]);
+
+
         await page.type('input[data-hook="register-phone-number"]', data["Phone"]);
 
-        sleep(3000);
+        await sleep(3000);
         await page.click('a[data-hook="register-next-step"]');
-        sleep(3000);
+        await sleep(3000);
 
 
         await page.type('input[data-hook="register-security-question"]', 'Your');
@@ -77,7 +85,7 @@ async function matchbook(data) {
 
         sleep(3000);
         await page.click('a[data-hook="register-next-step"]');
-        sleep(3000);
+        sleep(10000);
 
         // browser.close();
         return ["Matchbook 1", client, data["Email"], username, password, "yes"];
