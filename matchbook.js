@@ -35,6 +35,7 @@ async function matchbook(data) {
         await sleep(10000);
 
         await page.click('a[class="mb-button mb-button--undefined mb-button--wide mb-button--primary "]');
+        await sleep(3000);
 
         await page.type('input[data-field-name="first"]', data["FirstName"]);
         await page.type('input[data-field-name="last"]', data["LastName"]);
