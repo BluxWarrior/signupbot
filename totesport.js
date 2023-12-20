@@ -59,7 +59,7 @@ async function totesport(data) {
         await page.type('input[data-testid="single-page-step-first-name-input"]', data['FirstName']);
         await page.type('input[data-testid="single-page-step-last-name-input"]', data['LastName']);
 
-        await page.click('button[class="your-detailsstyles__ChangeAddressTypeBtn-sc-xczitz-4 jyLetk"]');
+        await page.click('button[class="sc-jOFrXy PrUPk"]');
 
         await sleep(1000);
 
@@ -67,7 +67,7 @@ async function totesport(data) {
             await page.type('input[data-testid="manual-address-line1"]', data['Address']);
         } catch (error) {
             console.log("still not continued");
-            await page.click('button[class="your-detailsstyles__ChangeAddressTypeBtn-sc-xczitz-4 jyLetk"]');
+            await page.click('button[class="sc-jOFrXy PrUPk"]');
             await sleep(1000);
             await page.type('input[data-testid="manual-address-line1"]', data['Address']);
         }
